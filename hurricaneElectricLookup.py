@@ -29,7 +29,12 @@ def main():
 
 	soup = BeautifulSoup(browser.text)
 	table = soup.find("table")
-	rows = table.findAll("tr")
+	
+	try:
+		rows = table.findAll("tr")
+	except:
+		print "No results found"
+		sys.exit()
 
 	for row in rows:
 		tds = row.findAll("td")
