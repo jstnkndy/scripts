@@ -28,7 +28,7 @@ class ThreadFTP(threading.Thread):
 			try:
 				ftp = FTP(host, timeout=TIMEOUT)
 				if ftp:
-					if ftp.login():
+					if ftp.login("anonymous", "jsmith@aol.com"):
 						print "Success:", host
 			except:
 				pass
