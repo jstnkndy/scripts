@@ -29,7 +29,8 @@ class ThreadFTP(threading.Thread):
 				ftp = FTP(host, timeout=TIMEOUT)
 				if ftp:
 					if ftp.login("anonymous", "jsmith@aol.com"):
-						print "Success:", host
+						ls = ftp.nlst()
+						print "Success: %s %s" % (host, ls)
 			except:
 				pass
 			self.queue.task_done()
