@@ -12,6 +12,7 @@ import Queue
 import threading
 import iptools
 import sys
+import os
 from ftplib import FTP
 
 # Constant Variables
@@ -36,17 +37,21 @@ class ThreadFTP(threading.Thread):
 			self.queue.task_done()
 
 def usage():
-	print 'Usage: python %s <range>' % sys.argv[0]
+	print 'Usage: python %s <range or file>' % sys.argv[0]
 
 def main():	
 	if len(sys.argv) != 2:
 		usage()
 		sys.exit()
 	
-	ip_range = iptools.IpRangeList(sys.argv[1])
 	queue = Queue.Queue()
 
-	for host in ip_range:
+	if os.path.exists(sys.argv[1]):
+		hosts = [line.strip() for line in open(sys.argv[1])]
+	else:
+		hosts = iptools.IpRangeList(sys.argv[1])
+
+	for host in hosts:
 		queue.put(host)
 	for thr in range(MAX_THREADS):
 		t = ThreadFTP(queue)
